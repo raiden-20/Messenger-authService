@@ -1,14 +1,10 @@
-package ru.vsu.cs.sheina.authservice.dto;
+package ru.vsu.cs.sheina.authservice.dto.field;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class UserLoginDTO {
-
-    String email;
+public class NicknameDTO {
     String nickname;
-    String password;
 }
-

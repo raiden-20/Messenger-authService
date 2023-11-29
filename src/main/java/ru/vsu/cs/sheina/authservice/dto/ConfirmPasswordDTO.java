@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class ConfirmPasswordDTO {
-    String oneTimeCode;
+
+    Integer oneTimeCode;
     String newPassword;
 }

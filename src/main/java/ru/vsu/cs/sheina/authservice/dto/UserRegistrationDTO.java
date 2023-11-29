@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 public class UserRegistrationDTO {
 
     String email;
-
     String nickname;
-
     String password;
-
     String confirmPassword;
 }

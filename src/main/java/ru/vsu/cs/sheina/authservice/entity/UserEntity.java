@@ -1,12 +1,11 @@
 package ru.vsu.cs.sheina.authservice.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
+import java.sql.Timestamp;
 import java.util.UUID;
-
 
 @Entity
 @Data
@@ -24,8 +23,11 @@ public class UserEntity {
     String nickname;
 
     @Column(name = "hash_password")
-    String hashPassword;
+    Integer password;
 
     @Column(name = "account_status")
     Boolean accountStatus;
+
+    @Column(name = "password_date")
+    Timestamp passwordDate;
 }

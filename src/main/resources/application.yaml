@@ -2,14 +2,16 @@ server:
   port: 8000
 jwt:
   secret: secret
-
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: url
-    username: username
-    password: password
+    driver-class-name:
+    url:
+    username:
+    password:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     open-in-view: true
+link:
+  activation:
+  email:

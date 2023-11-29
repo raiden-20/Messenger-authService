@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class ChangeEmailDTO {
+
     String password;
     String newEmail;
 }
