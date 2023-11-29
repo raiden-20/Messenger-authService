@@ -1,17 +1,22 @@
 server:
   port: 8000
 jwt:
-  secret: secret
+  secret: 29qmvb8qbzj7sjhrrtmi5xp3oz98kzk529qmvb8qbzj7sj
 spring:
   datasource:
-    driver-class-name:
-    url:
-    username:
-    password:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5000/auth_cluster
+    username: auth_cluster
+    password: 1234
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     open-in-view: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rmuser
+    password: rmpassword
 link:
-  activation:
-  email:
+  activation: http://localhost:3000/successful_activation
+  email: http://localhost:3000/successful_change_email

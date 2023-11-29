@@ -27,7 +27,7 @@ public class DataService {
 
     private final UserCredentialsRepository userCredentialsRepository;
     private final ServiceDataRepository serviceDataRepository;
-    private final MailCommunication mailCommunication;
+    private final MailSenderCommunication mailSenderCommunication;
     private final JwtTokenUtil jwtTokenUtil;
     private final long CHANGE_PASSWORD_TIME = 5 * 60 * 1000;
     private final long CODE_LIFETIME = 2 * 60 * 1000;
@@ -48,7 +48,7 @@ public class DataService {
         userEntity.setPassword(newPass.hashCode());
         userEntity.setPasswordDate(new Timestamp(System.currentTimeMillis()));
         userCredentialsRepository.save(userEntity);
-        mailCommunication.sendNewPassMessage(emailDTO.getEmail(), newPass);
+        mailSenderCommunication.sendNewPassMessage(emailDTO.getEmail(), newPass);
     }
 
     public void changePassword(PasswordDTO passwordDTO, String token) {
@@ -68,7 +68,7 @@ public class DataService {
         serviceDataEntity.setDate(new Timestamp(System.currentTimeMillis()));
         serviceDataRepository.save(serviceDataEntity);
 
-        mailCommunication.sendConfirmNewPassMessage(userEntity.getEmail(), code.toString());
+        mailSenderCommunication.sendConfirmNewPassMessage(userEntity.getEmail(), code.toString());
 
     }
     public void confirmPassword(ConfirmPasswordDTO confirmPasswordDTO, String token) {
@@ -105,7 +105,7 @@ public class DataService {
             throw new EmailAlreadyExistException();
         }
 
-        mailCommunication.sendConfirmEmailMessage(changeEmailDTO.getNewEmail());
+        mailSenderCommunication.sendConfirmEmailMessage(changeEmailDTO.getNewEmail());
     }
 
     public void changeNickname(NicknameDTO nicknameDTO, String token) {

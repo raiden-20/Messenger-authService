@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 public class AuthService {
 
     private final UserCredentialsRepository userCredentialsRepository;
-    private final MailCommunication mailCommunication;
+    private final MailSenderCommunication mailSenderCommunication;
     private final JwtTokenUtil jwtTokenUtil;
 
     public void createUser(UserRegistrationDTO userRegistrationDTO) {
@@ -46,7 +46,7 @@ public class AuthService {
         userEntity.setAccountStatus(false);
 
         userCredentialsRepository.save(userEntity);
-        mailCommunication.sendActivateMessage(userRegistrationDTO.getEmail());
+        mailSenderCommunication.sendActivateMessage(userRegistrationDTO.getEmail());
     }
 
     public void activeAccount(IdDTO idDTO) {
