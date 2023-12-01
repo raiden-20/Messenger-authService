@@ -19,18 +19,21 @@ public class MainController {
     private final AuthService authService;
 
     @PostMapping("/auth/registration")
+    @CrossOrigin
     public ResponseEntity<?> registration(@RequestBody UserRegistrationDTO userRegistrationDTO) {
         authService.createUser(userRegistrationDTO);
         return new ResponseEntity<>("Check your mailbox to activate your account", HttpStatus.CREATED);
     }
 
     @PostMapping("/auth/login")
+    @CrossOrigin
     public ResponseEntity<?> login(@RequestBody UserLoginDTO userLoginDTO) {
         String token = authService.createToken(userLoginDTO);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @PutMapping("/auth/block")
+    @CrossOrigin
     public ResponseEntity<?> block(@RequestBody PasswordDTO passwordDTO,
                                    @RequestHeader("Authorization") String token) {
         authService.blockAccount(passwordDTO, token);
@@ -38,6 +41,7 @@ public class MainController {
     }
 
     @PutMapping("/auth/active/account")
+    @CrossOrigin
     public ResponseEntity<?> activeAccount(@RequestBody IdDTO idDTO) {
         authService.activeAccount(idDTO);
         return new ResponseEntity<>("Account activated", HttpStatus.OK);
