@@ -5,7 +5,7 @@ jwt:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5000/auth_cluster
+    url: jdbc:postgresql://auth_db/auth_cluster
     username: auth_cluster
     password: 1234
   jpa:
