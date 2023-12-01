@@ -13,7 +13,7 @@ spring:
     show-sql: true
     open-in-view: true
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: rmuser
     password: rmpassword
