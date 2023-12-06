@@ -23,8 +23,8 @@ public class ChangeController {
     @CrossOrigin
     public ResponseEntity<?> changeNickname(@RequestBody NicknameDTO nicknameDTO,
                                             @RequestHeader("Authorization") String token) {
-        dataService.changeNickname(nicknameDTO, token);
-        return new ResponseEntity<>("Nickname changed", HttpStatus.OK);
+        String newToken = dataService.changeNickname(nicknameDTO, token);
+        return new ResponseEntity<>(newToken, HttpStatus.OK);
     }
     @PostMapping("/auth/change/email")
     @CrossOrigin
@@ -38,8 +38,8 @@ public class ChangeController {
     @CrossOrigin
     public ResponseEntity<?> confirmEmail(@RequestBody EmailDTO emailDTO,
                                           @RequestHeader("Authorization") String token) {
-        dataService.confirmEmail(emailDTO, token);
-        return new ResponseEntity<>("Email confirmed", HttpStatus.OK);
+        String newToken = dataService.confirmEmail(emailDTO, token);
+        return new ResponseEntity<>(newToken, HttpStatus.OK);
     }
 
     @PostMapping("/auth/change/password")

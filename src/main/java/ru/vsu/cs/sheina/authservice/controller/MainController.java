@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.cs.sheina.authservice.dto.UserLoginDTO;
+import ru.vsu.cs.sheina.authservice.dto.UserLoginResponseDTO;
 import ru.vsu.cs.sheina.authservice.dto.UserRegistrationDTO;
 import ru.vsu.cs.sheina.authservice.dto.field.IdDTO;
 import ru.vsu.cs.sheina.authservice.dto.field.PasswordDTO;
@@ -21,15 +22,15 @@ public class MainController {
     @PostMapping("/auth/registration")
     @CrossOrigin
     public ResponseEntity<?> registration(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        authService.createUser(userRegistrationDTO);
-        return new ResponseEntity<>("Check your mailbox to activate your account", HttpStatus.CREATED);
+        UUID id = authService.createUser(userRegistrationDTO);
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @PostMapping("/auth/login")
     @CrossOrigin
     public ResponseEntity<?> login(@RequestBody UserLoginDTO userLoginDTO) {
-        String token = authService.createToken(userLoginDTO);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        UserLoginResponseDTO userLoginResponseDTO = authService.login(userLoginDTO);
+        return new ResponseEntity<>(userLoginResponseDTO, HttpStatus.OK);
     }
 
     @PutMapping("/auth/block")

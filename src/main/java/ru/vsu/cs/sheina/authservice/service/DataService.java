@@ -25,6 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DataService {
 
+    private final AuthService authService;
     private final UserCredentialsRepository userCredentialsRepository;
     private final ServiceDataRepository serviceDataRepository;
     private final MailSenderCommunication mailSenderCommunication;
@@ -87,11 +88,13 @@ public class DataService {
         userCredentialsRepository.save(userEntity);
     }
 
-    public void confirmEmail(EmailDTO emailDTO, String token) {
+    public String confirmEmail(EmailDTO emailDTO, String token) {
         UserDTO userDTO = jwtTokenUtil.retrieveClaims(token);
         UserEntity userEntity = userCredentialsRepository.findById(userDTO.getId()).orElseThrow(UserNotExistException::new);
         userEntity.setEmail(emailDTO.getEmail());
         userCredentialsRepository.save(userEntity);
+
+        return authService.createToken(userEntity);
     }
 
     public void changeEmail(ChangeEmailDTO changeEmailDTO, String token) {
@@ -108,7 +111,7 @@ public class DataService {
         mailSenderCommunication.sendConfirmEmailMessage(changeEmailDTO.getNewEmail());
     }
 
-    public void changeNickname(NicknameDTO nicknameDTO, String token) {
+    public String changeNickname(NicknameDTO nicknameDTO, String token) {
         String newNickname = nicknameDTO.getNickname();
         UserDTO userDTO = jwtTokenUtil.retrieveClaims(token);
         UserEntity userEntity = userCredentialsRepository.findById(userDTO.getId()).orElseThrow(UserNotExistException::new);
@@ -119,6 +122,8 @@ public class DataService {
 
         userEntity.setNickname(newNickname);
         userCredentialsRepository.save(userEntity);
+
+        return authService.createToken(userEntity);
     }
 
     private String generateRandomPass() {

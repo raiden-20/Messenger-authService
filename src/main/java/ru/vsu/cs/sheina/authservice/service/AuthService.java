@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.vsu.cs.sheina.authservice.dto.UserDTO;
 import ru.vsu.cs.sheina.authservice.dto.UserLoginDTO;
+import ru.vsu.cs.sheina.authservice.dto.UserLoginResponseDTO;
 import ru.vsu.cs.sheina.authservice.dto.UserRegistrationDTO;
 import ru.vsu.cs.sheina.authservice.dto.field.IdDTO;
 import ru.vsu.cs.sheina.authservice.dto.field.PasswordDTO;
@@ -18,6 +19,7 @@ import ru.vsu.cs.sheina.authservice.repository.UserCredentialsRepository;
 import ru.vsu.cs.sheina.authservice.util.JwtTokenUtil;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class AuthService {
     private final MailSenderCommunication mailSenderCommunication;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public void createUser(UserRegistrationDTO userRegistrationDTO) {
+    public UUID createUser(UserRegistrationDTO userRegistrationDTO) {
         if (!userRegistrationDTO.getPassword().equals(userRegistrationDTO.getConfirmPassword())) {
             throw new PasswordMismatchException();
         }
@@ -47,6 +49,7 @@ public class AuthService {
 
         userCredentialsRepository.save(userEntity);
         mailSenderCommunication.sendActivateMessage(userRegistrationDTO.getEmail());
+        return userEntity.getId();
     }
 
     public void activeAccount(IdDTO idDTO) {
@@ -58,7 +61,7 @@ public class AuthService {
         userCredentialsRepository.save(userEntity);
     }
 
-    public String createToken(UserLoginDTO userLoginDTO) {
+    public UserLoginResponseDTO login(UserLoginDTO userLoginDTO) {
         UserEntity userEntity;
         if (!userLoginDTO.getEmail().isEmpty()) {
             userEntity = userCredentialsRepository.findByEmail(userLoginDTO.getEmail()).orElseThrow(UserNotExistException::new);
@@ -68,12 +71,24 @@ public class AuthService {
 
         checkBlocked(userEntity);
 
+        String token;
+
         if (!userEntity.getPassword().equals(userLoginDTO.getPassword().hashCode())) {
             throw new PasswordMismatchException();
         } else {
-            UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getNickname(), userEntity.getEmail());
-            return jwtTokenUtil.generateToken(userDTO);
+            token = createToken(userEntity);
         }
+
+        UserLoginResponseDTO userLoginResponseDTO = new UserLoginResponseDTO();
+        userLoginResponseDTO.setId(userEntity.getId());
+        userLoginResponseDTO.setToken(token);
+
+        return userLoginResponseDTO;
+    }
+
+    public String createToken(UserEntity userEntity) {
+        UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getNickname(), userEntity.getEmail());
+        return jwtTokenUtil.generateToken(userDTO);
     }
 
 
