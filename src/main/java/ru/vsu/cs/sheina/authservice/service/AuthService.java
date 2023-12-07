@@ -107,7 +107,7 @@ public class AuthService {
 
     private void checkBlocked(UserEntity userEntity) {
         if (!userEntity.getAccountStatus()) {
-            throw new AccountBlockedException();
+            throw new AccountBlockedException(userEntity.getId());
         }
     }
 }
