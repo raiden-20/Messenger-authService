@@ -14,19 +14,20 @@ import ru.vsu.cs.sheina.authservice.service.DataService;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class ChangeController {
 
     private final DataService dataService;
 
-    @PostMapping("/auth/change/nickname")
+    @PostMapping("/change/nickname")
     @CrossOrigin
     public ResponseEntity<?> changeNickname(@RequestBody NicknameDTO nicknameDTO,
                                             @RequestHeader("Authorization") String token) {
         String newToken = dataService.changeNickname(nicknameDTO, token);
         return new ResponseEntity<>(newToken, HttpStatus.OK);
     }
-    @PostMapping("/auth/change/email")
+    @PostMapping("/change/email")
     @CrossOrigin
     public ResponseEntity<?> changeEmail(@RequestBody ChangeEmailDTO changeEmailDTO,
                                          @RequestHeader("Authorization") String token) {
@@ -34,7 +35,7 @@ public class ChangeController {
         return new ResponseEntity<>("Check your mailbox to confirm email", HttpStatus.OK);
     }
 
-    @PutMapping("/auth/confirm/email")
+    @PutMapping("/confirm/email")
     @CrossOrigin
     public ResponseEntity<?> confirmEmail(@RequestBody EmailDTO emailDTO,
                                           @RequestHeader("Authorization") String token) {
@@ -42,7 +43,7 @@ public class ChangeController {
         return new ResponseEntity<>(newToken, HttpStatus.OK);
     }
 
-    @PostMapping("/auth/change/password")
+    @PostMapping("/change/password")
     @CrossOrigin
     public ResponseEntity<?> changePassword(@RequestBody PasswordDTO passwordDTO,
                                             @RequestHeader("Authorization") String token) {
@@ -50,24 +51,17 @@ public class ChangeController {
         return new ResponseEntity<>("Check your mailbox to confirm new password", HttpStatus.OK);
     }
 
-    @PutMapping("/auth/confirm/password")
+    @PutMapping("/confirm/password")
     @CrossOrigin
     public ResponseEntity<?> confirmPassword(@RequestBody ConfirmPasswordDTO confirmPasswordDTO,
                                              @RequestHeader("Authorization") String token) {
         dataService.confirmPassword(confirmPasswordDTO, token);
         return new ResponseEntity<>("Password changed", HttpStatus.OK);
     }
-    @PutMapping("/auth/forget/password")
+    @PutMapping("/forget/password")
     @CrossOrigin
     public ResponseEntity<?> forgetPassword(@RequestBody EmailDTO emailDTO) {
         dataService.createNewPass(emailDTO);
         return new ResponseEntity<>("Check your mailbox", HttpStatus.OK);
-    }
-
-    @GetMapping("/auth/data/{id}")
-    @CrossOrigin
-    public ResponseEntity<?> getAuthData(@PathVariable UUID id) {
-        UserDTO userDTO = dataService.getUserData(id);
-        return ResponseEntity.ok(userDTO);
     }
 }
