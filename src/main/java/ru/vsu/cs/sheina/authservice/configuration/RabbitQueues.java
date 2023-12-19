@@ -1,11 +1,7 @@
 package ru.vsu.cs.sheina.authservice.configuration;
 
-public enum RabbitQueues {
-    MAIL_SENDER_QUEUE("MAIL_SENDER_QUEUE");
+public class RabbitQueues {
+    public static final String toMailSender = "FROM_AUTH_TO_MAIL_QUEUE";
 
-    private String name;
-
-    RabbitQueues(String name) {
-        this.name = name;
-    }
+    public static final String toSocialService = "FROM_AUTH_TO_SOCIAL_QUEUE";
 }

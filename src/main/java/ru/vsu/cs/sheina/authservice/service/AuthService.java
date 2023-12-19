@@ -26,7 +26,8 @@ import java.util.UUID;
 public class AuthService {
 
     private final UserCredentialsRepository userCredentialsRepository;
-    private final MailSenderCommunication mailSenderCommunication;
+    private final MailSender mailSender;
+    private final SocialSender socialSender;
     private final JwtTokenUtil jwtTokenUtil;
 
     public UUID createUser(UserRegistrationDTO userRegistrationDTO) {
@@ -46,9 +47,13 @@ public class AuthService {
         userEntity.setPassword(userRegistrationDTO.getPassword().hashCode());
         userEntity.setPasswordDate(new Timestamp(System.currentTimeMillis()));
         userEntity.setAccountStatus(false);
+        //todo userMapper
 
         userCredentialsRepository.save(userEntity);
-        mailSenderCommunication.sendActivateMessage(userRegistrationDTO.getEmail());
+
+        socialSender.sendCreateUserRequest(userEntity.getId());
+        mailSender.sendActivateMessage(userRegistrationDTO.getEmail());
+
         return userEntity.getId();
     }
 

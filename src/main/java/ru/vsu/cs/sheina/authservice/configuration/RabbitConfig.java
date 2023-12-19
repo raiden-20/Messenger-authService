@@ -16,6 +16,11 @@ public class RabbitConfig {
 
     @Bean
     public Queue mailSenderQueue() {
-        return new Queue(RabbitQueues.MAIL_SENDER_QUEUE.toString());
+        return new Queue(RabbitQueues.toMailSender);
+    }
+
+    @Bean
+    public Queue socialServiceQueue() {
+        return new Queue(RabbitQueues.toSocialService);
     }
 }
