@@ -20,6 +20,9 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String signature;
 
+    @Value("${jwt.key}")
+    private String key;
+
     public String generateToken(UserDTO userDTO){
         Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(60).toInstant());
 
@@ -28,6 +31,7 @@ public class JwtTokenUtil {
                 .withClaim("id", userDTO.getId().toString())
                 .withClaim("nickname", userDTO.getNickname())
                 .withClaim("email", userDTO.getEmail())
+                .withClaim("key", key)
                 .withIssuedAt(new Date())
                 .withIssuer("auth-service")
                 .withExpiresAt(expirationDate)
