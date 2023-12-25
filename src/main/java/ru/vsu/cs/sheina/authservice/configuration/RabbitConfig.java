@@ -23,4 +23,9 @@ public class RabbitConfig {
     public Queue socialServiceQueue() {
         return new Queue(RabbitQueues.toSocialService);
     }
+
+    @Bean
+    public Queue blogServiceQueue() {
+        return new Queue(RabbitQueues.toBlogService);
+    }
 }

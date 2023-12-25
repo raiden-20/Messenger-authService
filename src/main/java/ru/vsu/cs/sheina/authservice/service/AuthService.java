@@ -47,11 +47,10 @@ public class AuthService {
         userEntity.setPassword(userRegistrationDTO.getPassword().hashCode());
         userEntity.setPasswordDate(new Timestamp(System.currentTimeMillis()));
         userEntity.setAccountStatus(false);
-        //todo userMapper
 
         userCredentialsRepository.save(userEntity);
-
-        rabbitSender.sendCreateUserRequest(userEntity.getId());
+        rabbitSender.sendCreateUserRequestBlog(userEntity.getId());
+        rabbitSender.sendCreateUserRequestSocial(userEntity.getId());
         mailSender.sendActivateMessage(userRegistrationDTO.getEmail());
 
         return userEntity.getId();

@@ -14,9 +14,13 @@ public class RabbitSender {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendCreateUserRequest(UUID id) {
+    public void sendCreateUserRequestSocial(UUID id) {
         IdDTO idDTO = new IdDTO(id);
         rabbitTemplate.convertAndSend(RabbitQueues.toSocialService, idDTO);
+    }
+
+    public void sendCreateUserRequestBlog(UUID id) {
+        IdDTO idDTO = new IdDTO(id);
         rabbitTemplate.convertAndSend(RabbitQueues.toBlogService, idDTO);
     }
 }
