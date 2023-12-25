@@ -27,7 +27,8 @@ public class AuthService {
 
     private final UserCredentialsRepository userCredentialsRepository;
     private final MailSender mailSender;
-    private final RabbitSender rabbitSender;
+    private final SocialSender socialSender;
+    private final BlogSender blogSender;
     private final JwtTokenUtil jwtTokenUtil;
 
     public UUID createUser(UserRegistrationDTO userRegistrationDTO) {
@@ -49,8 +50,8 @@ public class AuthService {
         userEntity.setAccountStatus(false);
 
         userCredentialsRepository.save(userEntity);
-        rabbitSender.sendCreateUserRequestBlog(userEntity.getId());
-        rabbitSender.sendCreateUserRequestSocial(userEntity.getId());
+        blogSender.sendCreateUserRequestBlog(userEntity.getId());
+        socialSender.sendCreateUserRequestSocial(userEntity.getId());
         mailSender.sendActivateMessage(userRegistrationDTO.getEmail());
 
         return userEntity.getId();

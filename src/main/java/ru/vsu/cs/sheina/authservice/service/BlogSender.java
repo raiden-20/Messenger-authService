@@ -10,14 +10,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RabbitSender {
+public class BlogSender {
 
     private final RabbitTemplate rabbitTemplate;
-
-    public void sendCreateUserRequestSocial(UUID id) {
-        IdDTO idDTO = new IdDTO(id);
-        rabbitTemplate.convertAndSend(RabbitQueues.toSocialService, idDTO);
-    }
 
     public void sendCreateUserRequestBlog(UUID id) {
         IdDTO idDTO = new IdDTO(id);
