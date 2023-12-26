@@ -116,6 +116,10 @@ public class DataService {
         UserDTO userDTO = jwtTokenUtil.retrieveClaims(token);
         UserEntity userEntity = userCredentialsRepository.findById(userDTO.getId()).orElseThrow(UserNotExistException::new);
 
+        if (nicknameDTO.getNickname().equals(userEntity.getNickname())) {
+            return token;
+        }
+
         if (userCredentialsRepository.existsByNickname(newNickname)) {
             throw new NicknameAlreadyExistException();
         }
