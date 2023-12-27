@@ -117,6 +117,7 @@ public class DataService {
         UserEntity userEntity = userCredentialsRepository.findById(userDTO.getId()).orElseThrow(UserNotExistException::new);
 
         if (nicknameDTO.getNickname().equals(userEntity.getNickname())) {
+            token = token.substring(7);
             return token;
         }
 
