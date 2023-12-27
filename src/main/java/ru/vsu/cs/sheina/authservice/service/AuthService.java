@@ -52,7 +52,7 @@ public class AuthService {
         userCredentialsRepository.save(userEntity);
         blogSender.sendCreateUserRequestBlog(userEntity.getId());
         socialSender.sendCreateUserRequestSocial(userEntity.getId());
-        mailSender.sendActivateMessage(userRegistrationDTO.getEmail());
+        //mailSender.sendActivateMessage(userRegistrationDTO.getEmail());
 
         return userEntity.getId();
     }

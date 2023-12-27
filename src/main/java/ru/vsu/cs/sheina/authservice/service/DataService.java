@@ -49,7 +49,7 @@ public class DataService {
         userEntity.setPassword(newPass.hashCode());
         userEntity.setPasswordDate(new Timestamp(System.currentTimeMillis()));
         userCredentialsRepository.save(userEntity);
-        mailSender.sendNewPassMessage(emailDTO.getEmail(), newPass);
+        //mailSender.sendNewPassMessage(emailDTO.getEmail(), newPass);
     }
 
     public void changePassword(PasswordDTO passwordDTO, String token) {
@@ -69,7 +69,7 @@ public class DataService {
         serviceDataEntity.setDate(new Timestamp(System.currentTimeMillis()));
         serviceDataRepository.save(serviceDataEntity);
 
-        mailSender.sendConfirmNewPassMessage(userEntity.getEmail(), code.toString());
+        //mailSender.sendConfirmNewPassMessage(userEntity.getEmail(), code.toString());
 
     }
     public void confirmPassword(ConfirmPasswordDTO confirmPasswordDTO, String token) {
@@ -108,7 +108,7 @@ public class DataService {
             throw new EmailAlreadyExistException();
         }
 
-        mailSender.sendConfirmEmailMessage(changeEmailDTO.getNewEmail());
+        //mailSender.sendConfirmEmailMessage(changeEmailDTO.getNewEmail());
     }
 
     public String changeNickname(NicknameDTO nicknameDTO, String token) {
